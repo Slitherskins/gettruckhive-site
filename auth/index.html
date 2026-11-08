@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opening TruckHive</title>
+<meta name="description" content="Opens your TruckHive sign-up or password link in the app.">
+<link rel="canonical" href="https://gettruckhive.com/auth/">
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+</head>
+<body>
+<header class="top"><a class="brand" href="/">TruckHive</a><nav><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/delete-account/">Delete account</a></nav></header>
+<main>
+<section class="legal">
+<h1 id="title">Opening TruckHive…</h1>
+<p id="msg">If the app doesn’t open, tap the button.</p>
+<p><a id="open" class="button" href="truckhive://auth-callback">Open TruckHive</a></p>
+<h2>On a computer?</h2>
+<p>Open this email on the phone where you have TruckHive. For your security, sign-up and password links only work on the phone that asked for them.</p>
+<p class="small" id="err" hidden></p>
+</section>
+<script>
+(function () {
+  var p = new URLSearchParams(location.search);
+  new URLSearchParams(location.hash.slice(1)).forEach(function (v, k) { if (!p.has(k)) p.set(k, v); });
+  var qs = p.toString();
+  var app = 'truckhive://auth-callback' + (qs ? '?' + qs : '');
+  document.getElementById('open').setAttribute('href', app);
+  var err = p.get('error_description');
+  if (err) { var e = document.getElementById('err'); e.textContent = 'The link said: ' + err; e.hidden = false; }
+  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    location.href = app;
+  } else {
+    document.getElementById('title').textContent = 'Open this on your phone';
+    document.getElementById('msg').textContent = 'This link opens the TruckHive app, which runs on iPhone and Android.';
+    document.getElementById('open').hidden = true;
+  }
+})();
+</script>
+</main>
+<footer><p>Support: <a href="mailto:support@gettruckhive.com">support@gettruckhive.com</a></p><p>© 2026 TruckHive</p></footer>
+</body>
+</html>
